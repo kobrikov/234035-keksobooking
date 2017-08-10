@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Evgeniy Kobrikov](https://up.htmlacademy.ru/javascript/10/user/234035).
-* Наставник: `Неизвестно`.
+* Наставник: [Виталий Зюзин](https://htmlacademy.ru/profile/juwain).
 
 ---
 
