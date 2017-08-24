@@ -6,6 +6,7 @@ var AD_TYPES = ['flat', 'house', 'bungalo'];
 var AD_CHECKIN_CHECKOUT = ['12:00', '13:00', '14:00'];
 var AD_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var COUNT_ADS = 8;
+var sizePin = {};
 var pinsMap = document.querySelector('.tokyo__pin-map');
 var offerDialog = document.querySelector('#offer-dialog');
 var oldDialog = offerDialog.querySelector('.dialog__panel');
@@ -95,7 +96,9 @@ var createPin = function (pinAds) {
   pinImage.className = 'rounded';
   pinImage.width = '40';
   pinImage.height = '40';
-  var sizePin = getSizePin(pinElement);
+  if (!sizePin.height) {
+    sizePin = getSizePin(pinElement);
+  }
   pinElement.style.left = pinAds.location.x - sizePin.halfWidth + 'px';
   pinElement.style.top = pinAds.location.y - sizePin.height + 'px';
   pinImage.src = pinAds.author.avatar;
