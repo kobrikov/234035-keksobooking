@@ -13,6 +13,13 @@ var pinsMap = document.querySelector('.tokyo__pin-map');
 var offerDialog = document.querySelector('#offer-dialog');
 var dialogClose = offerDialog.querySelector('.dialog__close');
 var dialogTemplate = document.querySelector('#lodge-template').content;
+var formContent = document.querySelector('.form__content');
+var timeIn = formContent.querySelector('#timein');
+var timeOut = formContent.querySelector('#timeout');
+var typeHouse = formContent.querySelector('#type');
+var priceHouse = formContent.querySelector('#price');
+var roomNumber = formContent.querySelector('#room_number');
+var capacity = formContent.querySelector('#capacity');
 
 var getRandomNum = function (num) {
   return Math.floor(Math.random() * num);
@@ -191,6 +198,86 @@ var onEscPress = function (evt) {
   }
 };
 
+var autoTimeInOut = function (evt) {
+  var element = evt.target;
+  for (var i = 0; i < element.children.length; i++) {
+    if (element.children[i].selected) {
+      if (element.id === 'timein') {
+        timeOut.children[i].selected = true;
+      } else {
+        timeIn.children[i].selected = true;
+      }
+    }
+  }
+};
+
+var getPriceHouse = function (evt) {
+  var element = evt.target;
+  var value;
+  for (var i = 0; i < element.children.length; i++) {
+    if (element.children[i].selected) {
+      value = element.children[i].value;
+      switch (value) {
+        case 'flat':
+          priceHouse.min = 1000;
+          priceHouse.value = 1000;
+          break;
+        case 'bungalo':
+          priceHouse.min = 0;
+          priceHouse.value = 0;
+          break;
+        case 'house':
+          priceHouse.min = 5000;
+          priceHouse.value = 5000;
+          break;
+        case 'palace':
+          priceHouse.min = 10000;
+          priceHouse.value = 10000;
+          break;
+      }
+    }
+  }
+};
+
+var getRoom = function (evt) {
+  var element = evt.target;
+  var value;
+  for (var i = 0; i < element.children.length; i++) {
+    if (element.children[i].selected) {
+      value = element.children[i].value;
+      switch (value) {
+        case '1':
+          capacity.children[0].disabled = true;
+          capacity.children[1].disabled = true;
+          capacity.children[2].selected = true;
+          capacity.children[3].disabled = true;
+          break;
+        case '2':
+          capacity.children[0].disabled = true;
+          capacity.children[1].disabled = false;
+          capacity.children[2].disabled = false;
+          capacity.children[3].disabled = true;
+          capacity.children[1].selected = true;
+          break;
+        case '3':
+          capacity.children[0].disabled = false;
+          capacity.children[1].disabled = false;
+          capacity.children[2].disabled = false;
+          capacity.children[3].disabled = true;
+          capacity.children[0].selected = true;
+          break;
+        case '100':
+          capacity.children[0].disabled = true;
+          capacity.children[1].disabled = true;
+          capacity.children[2].disabled = true;
+          capacity.children[3].disabled = false;
+          capacity.children[3].selected = true;
+          break;
+      }
+    }
+  }
+};
+
 var ads = getAds(AD_AVATARS, AD_TITLES, AD_TYPES, AD_CHECKIN_CHECKOUT, AD_FEATURES, COUNT_ADS);
 renderPin(ads);
 replaceDialog(ads[0]);
@@ -204,3 +291,8 @@ for (var i = 0; i < activePins.length; i++) {
 dialogClose.addEventListener('click', closeDialog);
 dialogClose.addEventListener('keydown', onEnterClose);
 offerDialog.addEventListener('keydown', onEscPress);
+
+timeIn.addEventListener('click', autoTimeInOut);
+timeOut.addEventListener('click', autoTimeInOut);
+typeHouse.addEventListener('click', getPriceHouse);
+roomNumber.addEventListener('click', getRoom);
