@@ -13,6 +13,13 @@ var pinsMap = document.querySelector('.tokyo__pin-map');
 var offerDialog = document.querySelector('#offer-dialog');
 var dialogClose = offerDialog.querySelector('.dialog__close');
 var dialogTemplate = document.querySelector('#lodge-template').content;
+var formContent = document.querySelector('.form__content');
+var timeIn = formContent.querySelector('#timein');
+var timeOut = formContent.querySelector('#timeout');
+var typeHouse = formContent.querySelector('#type');
+var priceHouse = formContent.querySelector('#price');
+var roomNumber = formContent.querySelector('#room_number');
+var capacity = formContent.querySelector('#capacity');
 
 var getRandomNum = function (num) {
   return Math.floor(Math.random() * num);
@@ -191,6 +198,54 @@ var onEscPress = function (evt) {
   }
 };
 
+var autoTimeInOut = function (evt) {
+  if (evt.target.id === 'timein') {
+    timeOut.value = evt.target.value;
+  } else {
+    timeIn.value = evt.target.value;
+  }
+};
+
+var getPriceHouse = function (evt) {
+  var value = evt.target.value;
+  switch (value) {
+    case 'flat':
+      priceHouse.min = 1000;
+      priceHouse.value = 1000;
+      break;
+    case 'bungalo':
+      priceHouse.min = 0;
+      priceHouse.value = 0;
+      break;
+    case 'house':
+      priceHouse.min = 5000;
+      priceHouse.value = 5000;
+      break;
+    case 'palace':
+      priceHouse.min = 10000;
+      priceHouse.value = 10000;
+      break;
+  }
+};
+
+var getRoom = function (evt) {
+  var value = evt.target.value;
+  switch (value) {
+    case '1':
+      capacity.value = 1;
+      break;
+    case '2':
+      capacity.value = 2;
+      break;
+    case '3':
+      capacity.value = 3;
+      break;
+    case '100':
+      capacity.value = 0;
+      break;
+  }
+};
+
 var ads = getAds(AD_AVATARS, AD_TITLES, AD_TYPES, AD_CHECKIN_CHECKOUT, AD_FEATURES, COUNT_ADS);
 renderPin(ads);
 replaceDialog(ads[0]);
@@ -204,3 +259,8 @@ for (var i = 0; i < activePins.length; i++) {
 dialogClose.addEventListener('click', closeDialog);
 dialogClose.addEventListener('keydown', onEnterClose);
 offerDialog.addEventListener('keydown', onEscPress);
+
+timeIn.addEventListener('change', autoTimeInOut);
+timeOut.addEventListener('change', autoTimeInOut);
+typeHouse.addEventListener('change', getPriceHouse);
+roomNumber.addEventListener('change', getRoom);
