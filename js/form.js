@@ -1,13 +1,18 @@
 'use strict';
 
-(function () {
+window.form = (function () {
   var formContent = document.querySelector('.form__content');
+  var myPin = document.querySelector('.pin__main');
+  var address = formContent.querySelector('#address');
   var timeIn = formContent.querySelector('#timein');
   var timeOut = formContent.querySelector('#timeout');
   var typeHouse = formContent.querySelector('#type');
   var priceHouse = formContent.querySelector('#price');
   var roomNumber = formContent.querySelector('#room_number');
   var capacity = formContent.querySelector('#capacity');
+  var addressX = '';
+  var addressY = '';
+  var regexp = /x: ([0-9]{3,4}), y: ([0-9]{3})$/i;
 
   var autoTimeInOut = function (evt) {
     if (evt.target.id === 'timein') {
@@ -57,8 +62,33 @@
     }
   };
 
+  var sendAddress = function (x, y) {
+    address.value = 'x: ' + x + ', y: ' + y;
+  };
+
   timeIn.addEventListener('change', autoTimeInOut);
   timeOut.addEventListener('change', autoTimeInOut);
   typeHouse.addEventListener('change', getPriceHouse);
   roomNumber.addEventListener('change', getRoom);
+
+  address.addEventListener('input', function (evt) {
+    addressX = '';
+    addressY = '';
+    if (regexp.test(evt.target.value)) {
+      addressX = RegExp.$1;
+      addressY = RegExp.$2;
+    }
+
+    var poolX = (addressX >= 300 && addressX <= 1200);
+    var poolY = (addressY >= 100 && addressY <= 500);
+
+    if (addressX && addressY && poolX && poolY) {
+      myPin.style.left = addressX - Math.round(myPin.clientWidth / 2) + 'px';
+      myPin.style.top = addressY - myPin.clientHeight + 'px';
+    }
+  });
+
+  return {
+    sendAddress: sendAddress
+  };
 })();
