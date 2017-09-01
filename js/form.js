@@ -13,6 +13,7 @@ window.form = (function () {
   var addressX = '';
   var addressY = '';
   var regexp = /x: ([0-9]{3,4}), y: ([0-9]{3})$/i;
+  var pano = window.data.mapPano;
 
   var autoTimeInOut = function (evt) {
     if (evt.target.id === 'timein') {
@@ -62,8 +63,12 @@ window.form = (function () {
     }
   };
 
-  var sendAddress = function (x, y) {
+  var setAddress = function (x, y) {
     address.value = 'x: ' + x + ', y: ' + y;
+  };
+
+  var delChar = function (string) {
+    return string.replace(/\D/gi, '');
   };
 
   timeIn.addEventListener('change', autoTimeInOut);
@@ -75,12 +80,13 @@ window.form = (function () {
     addressX = '';
     addressY = '';
     if (regexp.test(evt.target.value)) {
-      addressX = RegExp.$1;
-      addressY = RegExp.$2;
+      var addressArray = address.value.split(', ');
+      addressX = delChar(addressArray[0]);
+      addressY = delChar(addressArray[1]);
     }
 
-    var poolX = (addressX >= 300 && addressX <= 1200);
-    var poolY = (addressY >= 100 && addressY <= 500);
+    var poolX = (addressX >= pano.startX && addressX <= pano.endX);
+    var poolY = (addressY >= pano.startY && addressY <= pano.endY);
 
     if (addressX && addressY && poolX && poolY) {
       myPin.style.left = addressX - Math.round(myPin.clientWidth / 2) + 'px';
@@ -89,6 +95,6 @@ window.form = (function () {
   });
 
   return {
-    sendAddress: sendAddress
+    setAddress: setAddress
   };
 })();
