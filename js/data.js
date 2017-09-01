@@ -7,6 +7,10 @@ window.data = (function () {
   var AD_CHECKIN_CHECKOUT = ['12:00', '13:00', '14:00'];
   var AD_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var COUNT_ADS = 8;
+  var MAP_DND_X_START = 300;
+  var MAP_DND_X_END = 900;
+  var MAP_DND_Y_START = 100;
+  var MAP_DND_Y_END = 500;
 
   var getRandomArray = function (array) {
     var newArray = [];
@@ -44,8 +48,8 @@ window.data = (function () {
     var avatarsArray = AD_AVATARS.slice();
     var titlesArray = AD_TITLES.slice();
     for (var i = 0; i < COUNT_ADS; i++) {
-      var locX = getRandomFromRange(300, 900);
-      var locY = getRandomFromRange(100, 500);
+      var locX = getRandomFromRange(MAP_DND_X_START, MAP_DND_X_END);
+      var locY = getRandomFromRange(MAP_DND_Y_START, MAP_DND_Y_END);
 
       adsArray[i] = {
         author: {
@@ -76,7 +80,13 @@ window.data = (function () {
   };
 
   return {
-    get: getAds
+    get: getAds,
+    mapPano: {
+      startX: MAP_DND_X_START,
+      endX: MAP_DND_X_END,
+      startY: MAP_DND_Y_START,
+      endY: MAP_DND_Y_END
+    }
   };
 
 })();
