@@ -14,54 +14,11 @@ window.form = (function () {
   var addressY = '';
   var regexp = /x: ([0-9]{3,4}), y: ([0-9]{3})$/i;
   var pano = window.data.mapPano;
-
-  var autoTimeInOut = function (evt) {
-    if (evt.target.id === 'timein') {
-      timeOut.value = evt.target.value;
-    } else {
-      timeIn.value = evt.target.value;
-    }
-  };
-
-  var getPriceHouse = function (evt) {
-    var value = evt.target.value;
-    switch (value) {
-      case 'flat':
-        priceHouse.min = 1000;
-        priceHouse.value = 1000;
-        break;
-      case 'bungalo':
-        priceHouse.min = 0;
-        priceHouse.value = 0;
-        break;
-      case 'house':
-        priceHouse.min = 5000;
-        priceHouse.value = 5000;
-        break;
-      case 'palace':
-        priceHouse.min = 10000;
-        priceHouse.value = 10000;
-        break;
-    }
-  };
-
-  var getRoom = function (evt) {
-    var value = evt.target.value;
-    switch (value) {
-      case '1':
-        capacity.value = 1;
-        break;
-      case '2':
-        capacity.value = 2;
-        break;
-      case '3':
-        capacity.value = 3;
-        break;
-      case '100':
-        capacity.value = 0;
-        break;
-    }
-  };
+  var regTime = window.data.form.regTime;
+  var typeHouseArray = window.data.form.type;
+  var priceHouseArray = window.data.form.price;
+  var roomsCount = window.data.form.rooms;
+  var placesCount = window.data.form.places;
 
   var setAddress = function (x, y) {
     address.value = 'x: ' + x + ', y: ' + y;
@@ -71,10 +28,19 @@ window.form = (function () {
     return string.replace(/\D/gi, '');
   };
 
-  timeIn.addEventListener('change', autoTimeInOut);
-  timeOut.addEventListener('change', autoTimeInOut);
-  typeHouse.addEventListener('change', getPriceHouse);
-  roomNumber.addEventListener('change', getRoom);
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
+    element.value = value;
+  };
+
+  window.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
+  window.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
+  window.synchronizeFields(typeHouse, priceHouse, typeHouseArray, priceHouseArray, syncValueWithMin);
+  window.synchronizeFields(roomNumber, capacity, roomsCount, placesCount, syncValues);
 
   address.addEventListener('input', function (evt) {
     addressX = '';

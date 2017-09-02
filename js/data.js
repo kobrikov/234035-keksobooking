@@ -3,7 +3,7 @@
 window.data = (function () {
   var AD_AVATARS = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/user03.png', 'img/avatars/user04.png', 'img/avatars/user05.png', 'img/avatars/user06.png', 'img/avatars/user07.png', 'img/avatars/user08.png'];
   var AD_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-  var AD_TYPES = ['flat', 'house', 'bungalo'];
+  var AD_TYPES = ['flat', 'house', 'bungalo', 'palace'];
   var AD_CHECKIN_CHECKOUT = ['12:00', '13:00', '14:00'];
   var AD_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var COUNT_ADS = 8;
@@ -11,6 +11,9 @@ window.data = (function () {
   var MAP_DND_X_END = 900;
   var MAP_DND_Y_START = 100;
   var MAP_DND_Y_END = 500;
+  var PRICE_HOUSE = [1000, 0, 5000, 10000];
+  var ROOMS_COUNT = ['1', '2', '3', '100'];
+  var PLACES_COUNT = [1, 2, 3, 0];
 
   var getRandomArray = function (array) {
     var newArray = [];
@@ -86,6 +89,13 @@ window.data = (function () {
       endX: MAP_DND_X_END,
       startY: MAP_DND_Y_START,
       endY: MAP_DND_Y_END
+    },
+    form: {
+      regTime: AD_CHECKIN_CHECKOUT,
+      type: AD_TYPES,
+      price: PRICE_HOUSE,
+      rooms: ROOMS_COUNT,
+      places: PLACES_COUNT
     }
   };
 
