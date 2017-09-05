@@ -1,6 +1,7 @@
 'use strict';
 
 window.form = (function () {
+  var form = document.querySelector('.notice__form');
   var formContent = document.querySelector('.form__content');
   var myPin = document.querySelector('.pin__main');
   var address = formContent.querySelector('#address');
@@ -37,6 +38,41 @@ window.form = (function () {
     element.value = value;
   };
 
+  var createLoadElement = function (message) {
+    var node = document.createElement('div');
+    node.className = 'inform';
+    node.style.position = 'fixed';
+    node.style.left = 50 + '%';
+    node.style.top = 0;
+    node.style.transform = 'translateX(-50%)';
+    node.style.padding = 10 + 'px';
+    node.style.width = 300 + 'px';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    node.style.color = 'rgba(255, 255, 255, 1)';
+    node.style.zIndex = 100;
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var deleteLoadElement = function () {
+    setTimeout(function () {
+      var element = document.body.querySelector('.inform');
+      element.parentNode.removeChild(element);
+    }, 3000);
+  };
+
+  var onLoad = function (message) {
+    window.form.createLoadElement(message);
+    window.form.deleteLoadElement();
+    form.reset();
+  };
+
+  var onError = function (message) {
+    window.form.createLoadElement(message);
+    window.form.deleteLoadElement();
+  };
+
   window.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
   window.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
   window.synchronizeFields(typeHouse, priceHouse, typeHouseArray, priceHouseArray, syncValueWithMin);
@@ -60,7 +96,14 @@ window.form = (function () {
     }
   });
 
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), onLoad, onError);
+  });
+
   return {
-    setAddress: setAddress
+    setAddress: setAddress,
+    createLoadElement: createLoadElement,
+    deleteLoadElement: deleteLoadElement
   };
 })();
