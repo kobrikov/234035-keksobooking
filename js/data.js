@@ -12,7 +12,6 @@ window.data = (function () {
   var PLACES_COUNT = [1, 2, 3, 0];
 
   return {
-    // get: getAds,
     mapPano: {
       startX: MAP_DND_X_START,
       endX: MAP_DND_X_END,

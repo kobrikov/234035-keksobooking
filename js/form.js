@@ -62,13 +62,13 @@ window.form = (function () {
     }, 3000);
   };
 
-  var onSave = function (message) {
+  var onLoad = function (message) {
     window.form.createLoadElement(message);
     window.form.deleteLoadElement();
     form.reset();
   };
 
-  var onErrorSave = function (message) {
+  var onError = function (message) {
     window.form.createLoadElement(message);
     window.form.deleteLoadElement();
   };
@@ -98,7 +98,7 @@ window.form = (function () {
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(form), onSave, onErrorSave);
+    window.backend.save(new FormData(form), onLoad, onError);
   });
 
   return {

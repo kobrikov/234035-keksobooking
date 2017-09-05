@@ -23,18 +23,18 @@ window.backend = (function () {
     xhr.send();
   };
 
-  var save = function (dataForm, onSave, onErrorSave) {
+  var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onSave('Данные успешно отправлены');
+        onLoad('Данные успешно отправлены');
       } else {
-        onErrorSave('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.open('POST', url);
-    xhr.send(dataForm);
+    xhr.send(data);
   };
   return {
     load: load,
