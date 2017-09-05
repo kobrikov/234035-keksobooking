@@ -7,11 +7,18 @@
   var halfWidthtPin = Math.round(myPin.clientWidth / 2);
   var heightPin = myPin.clientHeight;
 
-  var advertisements = window.data.get();
-  window.pin.renderPin(advertisements);
-  window.dialog.renderDialog(advertisements[0]);
-  window.showDialog(advertisements);
+  var onLoad = function (data) {
+    window.pin.renderPin(data);
+    window.dialog.renderDialog(data[0]);
+    window.showDialog(data);
+  };
 
+  var onError = function (message) {
+    window.form.createLoadElement(message);
+    window.form.deleteLoadElement();
+  };
+
+  window.backend.load(onLoad, onError);
   myPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
