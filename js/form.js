@@ -20,6 +20,7 @@ window.form = (function () {
   var priceHouseArray = window.data.form.price;
   var roomsCount = window.data.form.rooms;
   var placesCount = window.data.form.places;
+  var lastTimeout;
 
   var setAddress = function (x, y) {
     address.value = 'x: ' + x + ', y: ' + y;
@@ -56,7 +57,10 @@ window.form = (function () {
   };
 
   var deleteLoadElement = function () {
-    setTimeout(function () {
+    if (lastTimeout) {
+      clearTimeout(lastTimeout);
+    }
+    lastTimeout = setTimeout(function () {
       var element = document.body.querySelector('.inform');
       element.parentNode.removeChild(element);
     }, 3000);

@@ -11,6 +11,7 @@
     window.pin.renderPin(data);
     window.dialog.renderDialog(data[0]);
     window.showDialog(data);
+    window.pin.getFilterPin(data);
   };
 
   var onError = function (message) {
