@@ -21,6 +21,9 @@ window.form = (function () {
   var roomsCount = window.data.form.rooms;
   var placesCount = window.data.form.places;
   var debounceInterval = window.data.form.debounce;
+  var formPhotoContainer = document.querySelector('.form__photo-container');
+  var avatar = document.querySelector('.notice__preview img');
+  var defaultAvatar = 'img/muffin.png';
 
   var setAddress = function (x, y) {
     address.value = 'x: ' + x + ', y: ' + y;
@@ -39,10 +42,19 @@ window.form = (function () {
     element.value = value;
   };
 
+  var deleteFormPhotos = function (photos) {
+    for (var i = 0; i < photos.length; i++) {
+      photos[i].parentNode.removeChild(photos[i]);
+    }
+    avatar.src = defaultAvatar;
+  };
+
   var onLoad = function (message) {
+    var formPhotos = formPhotoContainer.querySelectorAll('.form__photo img');
     window.util.createMessageElement(message);
     window.util.debounce(window.util.deleteMessageElement, debounceInterval);
     form.reset();
+    deleteFormPhotos(formPhotos);
   };
 
   var onError = function (message) {
