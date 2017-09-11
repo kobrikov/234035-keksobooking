@@ -9,7 +9,7 @@ window.showDialog = function (array) {
       window.dialog.renderDialog(element);
     });
     activePins[i].addEventListener('keydown', function (evt) {
-      window.pin.setActiveKey(evt);
+      window.util.onEnterPress(evt, window.pin.setActiveClick);
       window.dialog.renderDialog(element);
     });
   });

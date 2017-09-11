@@ -1,10 +1,19 @@
 'use strict';
 
 window.pin = (function () {
-  var ENTER_KEYCODE = 13;
   var sizePin = {};
   var pinsMap = document.querySelector('.tokyo__pin-map');
   var offerDialog = document.querySelector('#offer-dialog');
+  var filters = document.querySelectorAll('.tokyo__filter');
+  var housingTypeFilter = document.querySelector('#housing_type');
+  var housingPriceFilter = document.querySelector('#housing_price');
+  var housingRoomNumber = document.querySelector('#housing_room-number');
+  var housingGuestsNumber = document.querySelector('#housing_guests-number');
+  var feature = document.querySelectorAll('input[name="feature"]');
+  var debounceInterval = window.data.pin.debounce;
+  var priceLow = window.data.pin.priceLow;
+  var priceHigh = window.data.pin.priceHigh;
+  var loadArray;
 
   var getSizePin = function (element) {
     var param = {};
@@ -33,6 +42,87 @@ window.pin = (function () {
     return pinElement;
   };
 
+  var clearMap = function () {
+    var pins = pinsMap.querySelectorAll('.pin:not(.pin__main)');
+    offerDialog.classList.add('hidden');
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].parentNode.removeChild(pins[i]);
+    }
+  };
+
+  var getElementFilter = function (value1, value2) {
+    if (value1 !== 'any') {
+      return value1 === String(value2);
+    }
+    return true;
+  };
+
+  var getRangeElementFilter = function (value, price) {
+    switch (value) {
+      case 'any':
+        return true;
+      case 'middle':
+        return price >= priceLow && price <= priceHigh;
+      case 'low':
+        return price < priceLow;
+      case 'high':
+        return price > priceHigh;
+    }
+    return false;
+  };
+
+  var getClickElementFilter = function (features) {
+    var count = 0;
+    var featureChecked = document.querySelectorAll('input[name="feature"]:checked');
+    for (var i = 0; i < featureChecked.length; i++) {
+      features.forEach(function (el) {
+        if (featureChecked[i].value === el) {
+          count++;
+        }
+      });
+    }
+    return count === featureChecked.length;
+  };
+
+  var setFilter = function () {
+    var newArray = loadArray.filter(function (el) {
+      return getElementFilter(housingTypeFilter.value, el.offer.type);
+    });
+    newArray = newArray.filter(function (el) {
+      return getRangeElementFilter(housingPriceFilter.value, el.offer.price);
+    });
+    newArray = newArray.filter(function (el) {
+      return getElementFilter(housingRoomNumber.value, el.offer.rooms);
+    });
+    newArray = newArray.filter(function (el) {
+      return getElementFilter(housingGuestsNumber.value, el.offer.guests);
+    });
+    newArray = newArray.filter(function (el) {
+      return getClickElementFilter(el.offer.features);
+    });
+    clearMap();
+    if (newArray.length) {
+      window.pin.renderPin(newArray);
+      window.dialog.renderDialog(newArray[0]);
+      window.showDialog(newArray);
+      offerDialog.classList.remove('hidden');
+    }
+  };
+
+  var getFilterPin = function (array) {
+    loadArray = array;
+    feature.forEach(function (element) {
+      element.addEventListener('change', function () {
+        window.util.debounce(setFilter, debounceInterval);
+      });
+    });
+    filters.forEach(function (element) {
+      element.addEventListener('change', function () {
+        window.util.debounce(setFilter, debounceInterval);
+      });
+    });
+  };
+
   var renderPin = function (arrayPin) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < arrayPin.length; i++) {
@@ -55,17 +145,11 @@ window.pin = (function () {
     currentElement.className += ' pin--active';
   };
 
-  var onEnterPress = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      setActiveElement(evt);
-    }
-  };
-
   return {
     renderPin: renderPin,
     clearActivePin: clearActiveElement,
     setActiveClick: setActiveElement,
-    setActiveKey: onEnterPress
+    getFilterPin: getFilterPin
   };
 
 })();

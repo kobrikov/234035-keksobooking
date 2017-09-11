@@ -6,16 +6,18 @@
   var pano = window.data.mapPano;
   var halfWidthtPin = Math.round(myPin.clientWidth / 2);
   var heightPin = myPin.clientHeight;
+  var debounceInterval = window.data.form.debounce;
 
   var onLoad = function (data) {
     window.pin.renderPin(data);
     window.dialog.renderDialog(data[0]);
     window.showDialog(data);
+    window.pin.getFilterPin(data);
   };
 
   var onError = function (message) {
-    window.form.createLoadElement(message);
-    window.form.deleteLoadElement();
+    window.util.createMessageElement(message);
+    window.util.debounce(window.util.deleteMessageElement, debounceInterval);
   };
 
   window.backend.load(onLoad, onError);
