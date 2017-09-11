@@ -10,8 +10,17 @@ window.data = (function () {
   var PRICE_HOUSE = [1000, 0, 5000, 10000];
   var ROOMS_COUNT = ['1', '2', '3', '100'];
   var PLACES_COUNT = [1, 2, 3, 0];
+  var DEBOUNCE_INTERVAL_LOAD = 3000;
+  var DEBOUNCE_INTERVAL_PIN = 500;
+  var PRICE_LOW = 10000;
+  var PRICE_HIGH = 50000;
 
   return {
+    pin: {
+      priceLow: PRICE_LOW,
+      priceHigh: PRICE_HIGH,
+      debounce: DEBOUNCE_INTERVAL_PIN
+    },
     mapPano: {
       startX: MAP_DND_X_START,
       endX: MAP_DND_X_END,
@@ -23,7 +32,8 @@ window.data = (function () {
       type: AD_TYPES,
       price: PRICE_HOUSE,
       rooms: ROOMS_COUNT,
-      places: PLACES_COUNT
+      places: PLACES_COUNT,
+      debounce: DEBOUNCE_INTERVAL_LOAD
     }
   };
 

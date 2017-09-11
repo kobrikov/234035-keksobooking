@@ -1,8 +1,6 @@
 'use strict';
 
 window.dialog = (function () {
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
   var offerDialog = document.querySelector('#offer-dialog');
   var dialogClose = offerDialog.querySelector('.dialog__close');
   var dialogTemplate = document.querySelector('#lodge-template').content;
@@ -34,27 +32,18 @@ window.dialog = (function () {
     offerDialog.tabIndex = '0';
   };
 
-  var onEnterClose = function (evt) {
-    evt.stopPropagation();
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closeDialog();
-    }
-  };
-
   var closeDialog = function () {
     offerDialog.classList.add('hidden');
     window.pin.clearActivePin();
   };
 
-  var onEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closeDialog();
-    }
-  };
-
   dialogClose.addEventListener('click', closeDialog);
-  dialogClose.addEventListener('keydown', onEnterClose);
-  offerDialog.addEventListener('keydown', onEscPress);
+  dialogClose.addEventListener('keydown', function (evt) {
+    window.util.onEnterPress(evt, closeDialog);
+  });
+  offerDialog.addEventListener('keydown', function (evt) {
+    window.util.onEscPress(evt, closeDialog);
+  });
 
   return {
     renderDialog: replaceDialog

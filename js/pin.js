@@ -1,10 +1,6 @@
 'use strict';
 
 window.pin = (function () {
-  var ENTER_KEYCODE = 13;
-  var PRICE_LOW = 10000;
-  var PRICE_HIGH = 50000;
-  var DEBOUNCE_INTERVAL = 500;
   var sizePin = {};
   var pinsMap = document.querySelector('.tokyo__pin-map');
   var offerDialog = document.querySelector('#offer-dialog');
@@ -13,7 +9,10 @@ window.pin = (function () {
   var housingPriceFilter = document.querySelector('#housing_price');
   var housingRoomNumber = document.querySelector('#housing_room-number');
   var housingGuestsNumber = document.querySelector('#housing_guests-number');
-  var feature = document.getElementsByName('feature');
+  var feature = document.querySelectorAll('input[name="feature"]');
+  var debounceInterval = window.data.pin.debounce;
+  var priceLow = window.data.pin.priceLow;
+  var priceHigh = window.data.pin.priceHigh;
   var loadArray;
 
   var getSizePin = function (element) {
@@ -63,41 +62,26 @@ window.pin = (function () {
       case 'any':
         return true;
       case 'middle':
-        return (price >= PRICE_LOW && price <= PRICE_HIGH);
+        return price >= priceLow && price <= priceHigh;
       case 'low':
-        return (price < PRICE_LOW);
+        return price < priceLow;
       case 'high':
-        return (price > PRICE_HIGH);
+        return price > priceHigh;
     }
     return false;
   };
 
   var getClickElementFilter = function (features) {
-    var currentElement = false;
-    var beChecked = false;
-    var whileNeedElement = false;
-    for (var i = 0; i < feature.length; i++) {
-      if (feature[i].checked) {
-        beChecked = true;
-        for (var j = 0; j < features.length; j++) {
-          if (feature[i].value === features[j]) {
-            currentElement = true;
-            whileNeedElement = true;
-            break;
-          } else {
-            whileNeedElement = false;
-          }
+    var count = 0;
+    var featureChecked = document.querySelectorAll('input[name="feature"]:checked');
+    for (var i = 0; i < featureChecked.length; i++) {
+      features.forEach(function (el) {
+        if (featureChecked[i].value === el) {
+          count++;
         }
-        if (!whileNeedElement) {
-          currentElement = false;
-          break;
-        }
-      }
+      });
     }
-    if (!beChecked) {
-      return true;
-    }
-    return currentElement;
+    return count === featureChecked.length;
   };
 
   var setFilter = function () {
@@ -129,12 +113,12 @@ window.pin = (function () {
     loadArray = array;
     feature.forEach(function (element) {
       element.addEventListener('change', function () {
-        window.debounce(setFilter, DEBOUNCE_INTERVAL);
+        window.util.debounce(setFilter, debounceInterval);
       });
     });
     filters.forEach(function (element) {
       element.addEventListener('change', function () {
-        window.debounce(setFilter, DEBOUNCE_INTERVAL);
+        window.util.debounce(setFilter, debounceInterval);
       });
     });
   };
@@ -161,17 +145,10 @@ window.pin = (function () {
     currentElement.className += ' pin--active';
   };
 
-  var onEnterPress = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      setActiveElement(evt);
-    }
-  };
-
   return {
     renderPin: renderPin,
     clearActivePin: clearActiveElement,
     setActiveClick: setActiveElement,
-    setActiveKey: onEnterPress,
     getFilterPin: getFilterPin
   };
 
