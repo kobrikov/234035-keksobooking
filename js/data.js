@@ -14,6 +14,9 @@ window.data = (function () {
   var DEBOUNCE_INTERVAL_PIN = 500;
   var PRICE_LOW = 10000;
   var PRICE_HIGH = 50000;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var FILE_COUNT = 16;
+  var AVATAR = 'img/muffin.png';
 
   return {
     pin: {
@@ -34,6 +37,11 @@ window.data = (function () {
       rooms: ROOMS_COUNT,
       places: PLACES_COUNT,
       debounce: DEBOUNCE_INTERVAL_LOAD
+    },
+    photo: {
+      types: FILE_TYPES,
+      count: FILE_COUNT,
+      avatar: AVATAR
     }
   };
 
