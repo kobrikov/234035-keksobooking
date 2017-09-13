@@ -23,7 +23,15 @@ window.form = (function () {
   var debounceInterval = window.data.form.debounce;
   var formPhotoContainer = document.querySelector('.form__photo-container');
   var avatar = document.querySelector('.notice__preview img');
-  var defaultAvatar = 'img/muffin.png';
+  var defaultAvatar = window.data.photo.avatar;
+  var noticePhoto = document.querySelector('.notice__photo');
+  var formPhoto = document.querySelector('.form__photo-container');
+  var fileChooserAvatar = noticePhoto.querySelector('.upload input[type=file]');
+  var noticePreviewAvatar = document.querySelectorAll('.notice__preview');
+  var fileChooserPhotos = formPhoto.querySelector('.upload input[type=file]');
+  var noticePreviewPhotos = document.querySelectorAll('.form__photo');
+  var loadAvatar = new window.PhotoLoader(fileChooserAvatar, noticePreviewAvatar);
+  var loadPhotos = new window.PhotoLoader(fileChooserPhotos, noticePreviewPhotos);
 
   var setAddress = function (x, y) {
     address.value = 'x: ' + x + ', y: ' + y;
@@ -55,6 +63,7 @@ window.form = (function () {
     window.util.debounce(window.util.deleteMessageElement, debounceInterval);
     form.reset();
     deleteFormPhotos(formPhotos);
+    loadPhotos.clearStep();
   };
 
   var onError = function (message) {
@@ -88,6 +97,13 @@ window.form = (function () {
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), onLoad, onError);
+  });
+
+  fileChooserAvatar.addEventListener('change', function () {
+    loadAvatar.addPhoto();
+  });
+  fileChooserPhotos.addEventListener('change', function () {
+    loadPhotos.addPhoto();
   });
 
   return {
