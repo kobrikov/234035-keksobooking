@@ -9,9 +9,10 @@
   var debounceInterval = window.data.form.debounce;
 
   var onLoad = function (data) {
-    window.pin.renderPin(data);
-    window.dialog.renderDialog(data[0]);
-    window.showDialog(data);
+    var defaultData = window.util.getRandomArray(data);
+    window.pin.renderPin(defaultData);
+    window.dialog.renderDialog(defaultData[0]);
+    window.showDialog(defaultData);
     window.pin.getFilterPin(data);
   };
 

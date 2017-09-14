@@ -17,18 +17,26 @@ window.data = (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var FILE_COUNT = 16;
   var AVATAR = 'img/muffin.png';
+  var DIALOG_PHOTO_WIDTH = 52;
+  var DIALOG_PHOTO_HEIGHT = 42;
+  var DEFAULT_COUNT_PINS = 3;
 
   return {
     pin: {
       priceLow: PRICE_LOW,
       priceHigh: PRICE_HIGH,
-      debounce: DEBOUNCE_INTERVAL_PIN
+      debounce: DEBOUNCE_INTERVAL_PIN,
+      randomCount: DEFAULT_COUNT_PINS
     },
     mapPano: {
       startX: MAP_DND_X_START,
       endX: MAP_DND_X_END,
       startY: MAP_DND_Y_START,
       endY: MAP_DND_Y_END
+    },
+    dialog: {
+      photoWidth: DIALOG_PHOTO_WIDTH,
+      photoHeight: DIALOG_PHOTO_HEIGHT
     },
     form: {
       regTime: AD_CHECKIN_CHECKOUT,
