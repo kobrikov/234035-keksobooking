@@ -40,21 +40,27 @@ window.dialog = (function () {
     offerDialog.tabIndex = '0';
   };
 
-  var closeDialog = function () {
+  var closeDialog = function (evt) {
+    evt.preventDefault();
     offerDialog.classList.add('hidden');
     window.pin.clearActivePin();
   };
 
   dialogClose.addEventListener('click', closeDialog);
   dialogClose.addEventListener('keydown', function (evt) {
-    window.util.onEnterPress(evt, closeDialog);
+    evt.stopPropagation();
+    if (window.util.isEnterPress(evt)) {
+      closeDialog(evt);
+    }
   });
   offerDialog.addEventListener('keydown', function (evt) {
-    window.util.onEscPress(evt, closeDialog);
+    if (window.util.isEscPress(evt)) {
+      closeDialog(evt);
+    }
   });
 
   return {
-    renderDialog: replaceDialog
+    render: replaceDialog
   };
 
 })();

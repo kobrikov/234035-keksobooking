@@ -10,8 +10,8 @@
 
   var onLoad = function (data) {
     var defaultData = window.util.getRandomArray(data);
-    window.pin.renderPin(defaultData);
-    window.dialog.renderDialog(defaultData[0]);
+    window.pin.render(defaultData);
+    window.dialog.render(defaultData[0]);
     window.showDialog(defaultData);
     window.pin.getFilterPin(data);
   };
@@ -30,7 +30,7 @@
       y: evt.clientY
     };
 
-    var loc = {
+    var location = {
       x: myPin.offsetLeft + halfWidthtPin,
       y: myPin.offsetTop + heightPin
     };
@@ -48,19 +48,19 @@
         y: moveEvt.clientY
       };
 
-      var newX = loc.x - shift.x;
-      var newY = loc.y - shift.y;
+      var newX = location.x - shift.x;
+      var newY = location.y - shift.y;
 
       if ((newX >= pano.startX) && (newX <= pano.endX)) {
-        loc.x = newX;
+        location.x = newX;
         myPin.style.left = (myPin.offsetLeft - shift.x) + 'px';
       }
 
       if ((newY >= pano.startY) && (newY <= pano.endY)) {
-        loc.y = newY;
+        location.y = newY;
         myPin.style.top = (myPin.offsetTop - shift.y) + 'px';
       }
-      window.form.setAddress(loc.x, loc.y);
+      window.form.setAddress(location.x, location.y);
     };
 
     var onMouseUp = function (upEvt) {

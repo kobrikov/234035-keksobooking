@@ -15,7 +15,7 @@ window.form = (function () {
   var addressY = '';
   var regexp = /x: ([0-9]{3,4}), y: ([0-9]{3})$/i;
   var pano = window.data.mapPano;
-  var regTime = window.data.form.regTime;
+  var registrationTime = window.data.form.registrationTime;
   var typeHouseArray = window.data.form.type;
   var priceHouseArray = window.data.form.price;
   var roomsCount = window.data.form.rooms;
@@ -37,23 +37,23 @@ window.form = (function () {
     address.value = 'x: ' + x + ', y: ' + y;
   };
 
-  var delChar = function (string) {
+  var deleteCharacter = function (string) {
     return string.replace(/\D/gi, '');
   };
 
-  var syncValues = function (element, value) {
+  var synchronizeValues = function (element, value) {
     element.value = value;
   };
 
-  var syncValueWithMin = function (element, value) {
+  var synchronizeValueWithMin = function (element, value) {
     element.min = value;
     element.value = value;
   };
 
   var deleteFormPhotos = function (photos) {
-    for (var i = 0; i < photos.length; i++) {
-      photos[i].parentNode.removeChild(photos[i]);
-    }
+    [].forEach.call(photos, function (element) {
+      element.parentNode.removeChild(element);
+    });
     avatar.src = defaultAvatar;
   };
 
@@ -71,18 +71,18 @@ window.form = (function () {
     window.util.debounce(window.util.deleteMessageElement, debounceInterval);
   };
 
-  window.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
-  window.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
-  window.synchronizeFields(typeHouse, priceHouse, typeHouseArray, priceHouseArray, syncValueWithMin);
-  window.synchronizeFields(roomNumber, capacity, roomsCount, placesCount, syncValues);
+  window.synchronizeFields(timeIn, timeOut, registrationTime, registrationTime, synchronizeValues);
+  window.synchronizeFields(timeOut, timeIn, registrationTime, registrationTime, synchronizeValues);
+  window.synchronizeFields(typeHouse, priceHouse, typeHouseArray, priceHouseArray, synchronizeValueWithMin);
+  window.synchronizeFields(roomNumber, capacity, roomsCount, placesCount, synchronizeValues);
 
   address.addEventListener('input', function (evt) {
     addressX = '';
     addressY = '';
     if (regexp.test(evt.target.value)) {
       var addressArray = address.value.split(', ');
-      addressX = delChar(addressArray[0]);
-      addressY = delChar(addressArray[1]);
+      addressX = deleteCharacter(addressArray[0]);
+      addressY = deleteCharacter(addressArray[1]);
     }
 
     var poolX = (addressX >= pano.startX && addressX <= pano.endX);

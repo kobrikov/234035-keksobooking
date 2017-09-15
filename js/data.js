@@ -7,7 +7,7 @@ window.data = (function () {
   var MAP_DND_X_END = 1200;
   var MAP_DND_Y_START = 100;
   var MAP_DND_Y_END = 600;
-  var PRICE_HOUSE = [1000, 0, 5000, 10000];
+  var PRICE_HOUSES = [1000, 10000, 0, 10000];
   var ROOMS_COUNT = ['1', '2', '3', '100'];
   var PLACES_COUNT = [1, 2, 3, 0];
   var DEBOUNCE_INTERVAL_LOAD = 3000;
@@ -39,9 +39,9 @@ window.data = (function () {
       photoHeight: DIALOG_PHOTO_HEIGHT
     },
     form: {
-      regTime: AD_CHECKIN_CHECKOUT,
+      registrationTime: AD_CHECKIN_CHECKOUT,
       type: AD_TYPES,
-      price: PRICE_HOUSE,
+      price: PRICE_HOUSES,
       rooms: ROOMS_COUNT,
       places: PLACES_COUNT,
       debounce: DEBOUNCE_INTERVAL_LOAD

@@ -3,23 +3,23 @@
 window.util = (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  var getRandomNum = function (num) {
+  var getRandomNumber = function (num) {
     return Math.floor(Math.random() * num);
   };
   var getRandomArray = function (array) {
-    var newArray = [];
+    var defaultPins = [];
     var randomCount = window.data.pin.randomCount;
     var value = null;
     while (randomCount > 0) {
-      value = array[getRandomNum(array.length)];
-      if (newArray.indexOf(value) !== -1) {
+      value = array[getRandomNumber(array.length)];
+      if (defaultPins.indexOf(value) !== -1) {
         continue;
       } else {
-        newArray.push(value);
+        defaultPins.push(value);
         randomCount--;
       }
     }
-    return newArray;
+    return defaultPins;
   };
   var debounce = function (fun, interval) {
     var lastTimeout;
@@ -28,16 +28,11 @@ window.util = (function () {
     }
     lastTimeout = setTimeout(fun, interval);
   };
-  var onEnterPress = function (evt, fun) {
-    evt.stopPropagation();
-    if (evt.keyCode === ENTER_KEYCODE) {
-      fun(evt);
-    }
+  var isEnterPress = function (evt) {
+    return evt.keyCode === ENTER_KEYCODE;
   };
-  var onEscPress = function (evt, fun) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      fun(evt);
-    }
+  var isEscPress = function (evt) {
+    return evt.keyCode === ESC_KEYCODE;
   };
   var createMessageElement = function (message) {
     var node = document.createElement('div');
@@ -61,8 +56,8 @@ window.util = (function () {
   };
   return {
     debounce: debounce,
-    onEnterPress: onEnterPress,
-    onEscPress: onEscPress,
+    isEnterPress: isEnterPress,
+    isEscPress: isEscPress,
     createMessageElement: createMessageElement,
     deleteMessageElement: deleteMessageElement,
     getRandomArray: getRandomArray
