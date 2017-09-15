@@ -16,12 +16,12 @@ window.pin = (function () {
   var loadArray;
 
   var getSizePin = function (element) {
-    var param = {};
+    var parameter = {};
     pinsMap.appendChild(element);
-    param.halfWidth = element.clientWidth / 2;
-    param.height = element.clientHeight;
+    parameter.halfWidth = element.clientWidth / 2;
+    parameter.height = element.clientHeight;
     pinsMap.removeChild(element);
-    return param;
+    return parameter;
   };
 
   var createPin = function (pinAds) {
@@ -85,26 +85,26 @@ window.pin = (function () {
   };
 
   var setFilter = function () {
-    var newArray = loadArray.filter(function (el) {
+    var filteredPins = loadArray.filter(function (el) {
       return getElementFilter(housingTypeFilter.value, el.offer.type);
     });
-    newArray = newArray.filter(function (el) {
+    filteredPins = filteredPins.filter(function (el) {
       return getRangeElementFilter(housingPriceFilter.value, el.offer.price);
     });
-    newArray = newArray.filter(function (el) {
+    filteredPins = filteredPins.filter(function (el) {
       return getElementFilter(housingRoomNumber.value, el.offer.rooms);
     });
-    newArray = newArray.filter(function (el) {
+    filteredPins = filteredPins.filter(function (el) {
       return getElementFilter(housingGuestsNumber.value, el.offer.guests);
     });
-    newArray = newArray.filter(function (el) {
+    filteredPins = filteredPins.filter(function (el) {
       return getClickElementFilter(el.offer.features);
     });
     clearMap();
-    if (newArray.length) {
-      window.pin.renderPin(newArray);
-      window.dialog.renderDialog(newArray[0]);
-      window.showDialog(newArray);
+    if (filteredPins.length) {
+      window.pin.render(filteredPins);
+      window.dialog.render(filteredPins[0]);
+      window.showDialog(filteredPins);
       offerDialog.classList.remove('hidden');
     }
   };
@@ -123,10 +123,10 @@ window.pin = (function () {
     });
   };
 
-  var renderPin = function (arrayPin) {
+  var renderPin = function (pins) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < arrayPin.length; i++) {
-      fragment.appendChild(createPin(arrayPin[i]));
+    for (var i = 0; i < pins.length; i++) {
+      fragment.appendChild(createPin(pins[i]));
     }
     pinsMap.appendChild(fragment);
   };
@@ -146,7 +146,7 @@ window.pin = (function () {
   };
 
   return {
-    renderPin: renderPin,
+    render: renderPin,
     clearActivePin: clearActiveElement,
     setActiveClick: setActiveElement,
     getFilterPin: getFilterPin

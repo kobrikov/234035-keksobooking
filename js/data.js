@@ -7,7 +7,7 @@ window.data = (function () {
   var MAP_DND_X_END = 1200;
   var MAP_DND_Y_START = 100;
   var MAP_DND_Y_END = 600;
-  var PRICE_HOUSE = [1000, 0, 5000, 10000];
+  var PRICE_HOUSES = [1000, 10000, 0, 10000];
   var ROOMS_COUNT = ['1', '2', '3', '100'];
   var PLACES_COUNT = [1, 2, 3, 0];
   var DEBOUNCE_INTERVAL_LOAD = 3000;
@@ -17,12 +17,16 @@ window.data = (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var FILE_COUNT = 16;
   var AVATAR = 'img/muffin.png';
+  var DIALOG_PHOTO_WIDTH = 52;
+  var DIALOG_PHOTO_HEIGHT = 42;
+  var DEFAULT_COUNT_PINS = 3;
 
   return {
     pin: {
       priceLow: PRICE_LOW,
       priceHigh: PRICE_HIGH,
-      debounce: DEBOUNCE_INTERVAL_PIN
+      debounce: DEBOUNCE_INTERVAL_PIN,
+      randomCount: DEFAULT_COUNT_PINS
     },
     mapPano: {
       startX: MAP_DND_X_START,
@@ -30,10 +34,14 @@ window.data = (function () {
       startY: MAP_DND_Y_START,
       endY: MAP_DND_Y_END
     },
+    dialog: {
+      photoWidth: DIALOG_PHOTO_WIDTH,
+      photoHeight: DIALOG_PHOTO_HEIGHT
+    },
     form: {
-      regTime: AD_CHECKIN_CHECKOUT,
+      registrationTime: AD_CHECKIN_CHECKOUT,
       type: AD_TYPES,
-      price: PRICE_HOUSE,
+      price: PRICE_HOUSES,
       rooms: ROOMS_COUNT,
       places: PLACES_COUNT,
       debounce: DEBOUNCE_INTERVAL_LOAD
