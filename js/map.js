@@ -12,7 +12,7 @@
     var defaultData = window.util.getRandomArray(data);
     window.pin.render(defaultData);
     window.dialog.render(defaultData[0]);
-    window.showDialog(defaultData);
+    window.showDialog.open(defaultData);
     window.pin.getFilterPin(data);
   };
 

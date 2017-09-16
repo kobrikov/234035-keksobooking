@@ -46,6 +46,8 @@ window.pin = (function () {
     var pins = pinsMap.querySelectorAll('.pin:not(.pin__main)');
     offerDialog.classList.add('hidden');
     for (var i = 0; i < pins.length; i++) {
+      pins[i].removeEventListener('click', window.showDialog.click);
+      pins[i].removeEventListener('keydown', window.showDialog.press);
       pins[i].parentNode.removeChild(pins[i]);
     }
   };
@@ -104,7 +106,7 @@ window.pin = (function () {
     if (filteredPins.length) {
       window.pin.render(filteredPins);
       window.dialog.render(filteredPins[0]);
-      window.showDialog(filteredPins);
+      window.showDialog.open(filteredPins);
       offerDialog.classList.remove('hidden');
     }
   };
